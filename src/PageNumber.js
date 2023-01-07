@@ -49,11 +49,15 @@ const PageNumber = (props) => {
 
       {numberArray.map((item) =>
         page == item + 1 ? (
-          <SCNumber onClick={(event) => setPage(event.target.textContent)}>
+          <SCNumber
+            onClick={(event) => setPage(parseInt(event.target.textContent))}
+          >
             {item + 1}
           </SCNumber>
         ) : (
-          <SCNumber2 onClick={(event) => setPage(event.target.textContent)}>
+          <SCNumber2
+            onClick={(event) => setPage(parseInt(event.target.textContent))}
+          >
             {item + 1}
           </SCNumber2>
         )

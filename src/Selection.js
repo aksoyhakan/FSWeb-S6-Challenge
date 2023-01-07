@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const SCSelection = styled.div`
@@ -19,6 +19,7 @@ const SCInput = styled.input`
   background: transparent;
   border: none;
   width: 100%;
+  z-index: 1000;
 
   &: active {
     border: none;
@@ -37,19 +38,50 @@ const SCLabel = styled.label`
   }
 `;
 
+const SCLabel2 = styled.label`
+  display: block;
+  background: transparent;
+  padding: 0.5rem 0rem 1.25rem 1.25rem;
+  color: rgb(102, 102, 255);
+  font-size: 0.75rem;
+
+  &:hover {
+    opacity: 0.5;
+  }
+`;
+
 const Selection = (props) => {
-  const { characterFilter } = props;
+  const { characterFilter, status, changer } = props;
+  const [newCharac, setNewCharac] = useState("");
+  console.log(status);
   return (
     <SCSelection>
-      <SCLabel for="keyword">Select...</SCLabel>
+      {!status ? (
+        <SCLabel onClick={() => changer(!status)} for="keyword">
+          Select...
+        </SCLabel>
+      ) : (
+        <SCLabel2 onClick={() => changer(!status)} for="keyword">
+          Select...
+        </SCLabel2>
+      )}
       <SCInput
         onChange={(event) => {
-          characterFilter(event.target.value);
-          console.log(event.target.value);
+          setNewCharac(event.target.value);
+          console.log(newCharac);
         }}
         id="keyword"
         type="text"
       />
+
+      {status && (
+        <SCInput
+          onClick={() => {
+            characterFilter(newCharac);
+          }}
+          type="submit"
+        />
+      )}
     </SCSelection>
   );
 };

@@ -31,6 +31,7 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [film, setFilm] = useState([]);
   const [openFilmTab, setOpenFilmTab] = useState(0);
+  const [search, setSearch] = useState(false);
 
   let dataArray = [];
 
@@ -68,14 +69,27 @@ const App = () => {
   }, []);
 
   function characterFilter(keyword) {
-    let filterArray = [];
-    filterArray = allData.filter((item) => item.name.includes(keyword));
-    setData(filterArray);
+    if (keyword === "") setData(firstData);
+    else {
+      let filterArray = [];
+      let newName = "";
+      filterArray = allData.filter((item) => {
+        newName = item.name.toUpperCase();
+        if (newName.includes(keyword.toUpperCase())) {
+          return item;
+        }
+      });
+      setData(filterArray);
+    }
   }
 
   return (
     <SCApp className="App">
-      <Selection characterFilter={characterFilter} />
+      <Selection
+        characterFilter={characterFilter}
+        status={search}
+        changer={setSearch}
+      />
       <SCHeading className="Header">Star Wars Major Characters List</SCHeading>
       <Info
         data={data}

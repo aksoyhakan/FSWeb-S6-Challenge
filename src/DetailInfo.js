@@ -8,7 +8,11 @@ const DetailInfo = (props) => {
     text-align: left;
     box-sizing: border-box;
     transition: all 0.5s ease-out;
-    padding-left: 1rem;
+  `;
+
+  const SCFilm = styled.p`
+    font-weight: bold;
+    text-decoration: underline;
   `;
 
   return (
@@ -20,7 +24,7 @@ const DetailInfo = (props) => {
       <p>eye color: {data.eye_color}</p>
       <p>gender: {data.gender}</p>
       <p>hair color: {data.hair_color}</p>
-      <p>Appears in {data.films.length} films</p>
+      <SCFilm>Appears in {data.films.length} films</SCFilm>
       <Films
         filmNames={data.films}
         film={film}
