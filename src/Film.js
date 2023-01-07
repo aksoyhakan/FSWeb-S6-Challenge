@@ -9,9 +9,16 @@ const SCFilm = styled.div`
   margin-top: 0rem;
 `;
 
+const SCToggle = styled.div`
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const SCFilmName = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-right: 1rem;
   padding-left: 0.25rem;
   margin-top: 0rem;
@@ -28,13 +35,13 @@ const Film = (props) => {
   console.log(film);
   return film.map(
     (item) =>
-      item.title === filmName && (
+      item.url === filmName && (
         <SCFilm>
           <SCFilmName>
             <p>
               Episode {item.episode_id}: {item.title}
             </p>
-            <p
+            <SCToggle
               onClick={(event) => {
                 openFilmTab !== item.episode_id
                   ? setOpenFilmTab(item.episode_id)
@@ -42,7 +49,7 @@ const Film = (props) => {
               }}
             >
               {openFilmTab === item.episode_id ? "-" : "+"}
-            </p>
+            </SCToggle>
           </SCFilmName>
           {openFilmTab === item.episode_id && (
             <FilmDetail data={item}></FilmDetail>

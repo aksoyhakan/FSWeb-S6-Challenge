@@ -16,8 +16,8 @@ const App = () => {
 
   const SCApp = styled.div`
     max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
+    margin: 1rem auto;
+    padding: 1rem;
   `;
 
   const SCHeading = styled.h1`
@@ -25,31 +25,42 @@ const App = () => {
     font-size: 2rem;
   `;
 
-  const [allData, setallData] = useState([]);
-  const [data, setData] = useState(firstData);
+  const [allData, setallData] = useState(firstData);
+  const [data, setData] = useState([]);
   const [openTab, setOpenTab] = useState(0);
   const [page, setPage] = useState(1);
   const [film, setFilm] = useState([]);
   const [openFilmTab, setOpenFilmTab] = useState(0);
   const [search, setSearch] = useState(false);
+  const [reset, setReset] = useState(false);
 
   let dataArray = [];
+  let dataArray2 = [];
 
   useEffect(() => {
-    axios
-      .get(`https://swapi.dev/api/people/?page=${page}`)
-      .then((response) => {
-        console.log(`https://swapi.dev/api/people/?page=${page}`);
-        setData(response.data);
-      })
-      .catch((err) => console.log(err));
-  }, [page]);
+    for (let i = 1; i <= 9; i++) {
+      axios
+        .get(`https://swapi.dev/api/people/?page=${i}`)
+        .then((response) => {
+          dataArray2 = dataArray2.concat(response.data.results);
+          setData(dataArray2);
+
+          console.log(`https://swapi.dev/api/people/?page=${i}`);
+          console.log(response);
+          console.log(data);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
 
   useEffect(() => {
     axios
       .get(`https://swapi.dev/api/films/`)
       .then((response) => {
-        setFilm(response.data[0].results);
+        console.log(`https://swapi.dev/api/films/`);
+        console.log(response);
+        setFilm(response.data.results);
+        console.log(film);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -59,18 +70,23 @@ const App = () => {
       axios
         .get(`https://swapi.dev/api/people/?page=${i}`)
         .then((response) => {
-          dataArray = dataArray.concat(response.data);
+          dataArray = dataArray.concat(response.data.results);
           setallData(dataArray);
-          console.log(response.data);
+
+          console.log(`https://swapi.dev/api/people/?page=${i}`);
+          console.log(response);
           console.log(allData);
         })
         .catch((err) => console.log(err));
     }
   }, []);
-
+  console.log(dataArray);
   function characterFilter(keyword) {
-    if (keyword === "") setData(firstData);
-    else {
+    if (keyword === "") {
+      setallData(data);
+      setPage(1);
+      setOpenTab(0);
+    } else {
       let filterArray = [];
       let newName = "";
       filterArray = allData.filter((item) => {
@@ -79,7 +95,7 @@ const App = () => {
           return item;
         }
       });
-      setData(filterArray);
+      setallData(filterArray);
     }
   }
 
@@ -89,17 +105,27 @@ const App = () => {
         characterFilter={characterFilter}
         status={search}
         changer={setSearch}
+        home={reset}
+        setHome={setReset}
+        pageSet={setPage}
       />
       <SCHeading className="Header">Star Wars Major Characters List</SCHeading>
       <Info
-        data={data}
+        allData={allData}
         openTab={openTab}
         setOpenTab={setOpenTab}
         film={film}
         openFilmTab={openFilmTab}
         setOpenFilmTab={setOpenFilmTab}
+        page={page}
       />
-      <PageNumber page={page} setPage={setPage} />
+      <PageNumber
+        page={page}
+        setPage={setPage}
+        openTab={openTab}
+        setOpenTab={setOpenTab}
+        allData={allData}
+      />
     </SCApp>
   );
 };

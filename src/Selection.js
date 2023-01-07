@@ -20,6 +20,9 @@ const SCInput = styled.input`
   border: none;
   width: 100%;
   z-index: 1000;
+  padding: 0;
+  margin: 0;
+  font-size: 0.865rem;
 
   &: active {
     border: none;
@@ -29,9 +32,9 @@ const SCInput = styled.input`
 const SCLabel = styled.label`
   display: block;
   background: transparent;
-  padding: 1.25rem 0rem 0rem 1.25rem;
+  padding: 1.5rem 0rem 0rem 1.25rem;
   color: rgb(120, 120, 120);
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 
   &:hover {
     opacity: 0.5;
@@ -41,9 +44,9 @@ const SCLabel = styled.label`
 const SCLabel2 = styled.label`
   display: block;
   background: transparent;
-  padding: 0.5rem 0rem 1.25rem 1.25rem;
+  padding: 1rem 0rem 0rem 1.25rem;
   color: rgb(102, 102, 255);
-  font-size: 0.75rem;
+  font-size: 1rem;
 
   &:hover {
     opacity: 0.5;
@@ -51,7 +54,7 @@ const SCLabel2 = styled.label`
 `;
 
 const Selection = (props) => {
-  const { characterFilter, status, changer } = props;
+  const { characterFilter, status, changer, home, setHome, pageSet } = props;
   const [newCharac, setNewCharac] = useState("");
   console.log(status);
   return (
@@ -78,8 +81,11 @@ const Selection = (props) => {
         <SCInput
           onClick={() => {
             characterFilter(newCharac);
+            pageSet(1);
+            newCharac === "" && setHome(!home);
           }}
           type="submit"
+          value={home ? "First Page" : "Search"}
         />
       )}
     </SCSelection>

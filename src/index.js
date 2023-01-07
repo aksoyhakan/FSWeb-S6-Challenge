@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 //import "./App.css";
 
-import { worker } from "./mocks/browser";
-worker.start();
+//import { worker } from "./mocks/browser";
+//worker.start();
 
 ReactDOM.render(<App />, document.getElementById("root"));

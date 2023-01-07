@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const PageNumber = (props) => {
-  const numberArray = [...Array(9).keys()];
-
-  const { page, setPage } = props;
+  const { allData, page, setPage, openTab, setOpenTab } = props;
+  console.log(allData);
+  const no = Math.ceil(allData.length / 10);
+  console.log(no);
+  const numberArray = [...Array(no).keys()];
 
   const SCPageNumber = styled.div`
     display: flex;
@@ -38,11 +40,21 @@ const PageNumber = (props) => {
   return (
     <SCPageNumber>
       {page === 1 ? (
-        <SCNumber onClick={() => (page > 1 ? setPage(page - 1) : setPage(1))}>
+        <SCNumber
+          onClick={() => {
+            page > 1 ? setPage(page - 1) : setPage(1);
+            setOpenTab(0);
+          }}
+        >
           &larr;
         </SCNumber>
       ) : (
-        <SCNumber2 onClick={() => (page > 1 ? setPage(page - 1) : setPage(1))}>
+        <SCNumber2
+          onClick={() => {
+            page > 1 ? setPage(page - 1) : setPage(1);
+            setOpenTab(0);
+          }}
+        >
           &larr;
         </SCNumber2>
       )}
@@ -50,24 +62,40 @@ const PageNumber = (props) => {
       {numberArray.map((item) =>
         page == item + 1 ? (
           <SCNumber
-            onClick={(event) => setPage(parseInt(event.target.textContent))}
+            onClick={(event) => {
+              setPage(parseInt(event.target.textContent));
+              setOpenTab(0);
+            }}
           >
             {item + 1}
           </SCNumber>
         ) : (
           <SCNumber2
-            onClick={(event) => setPage(parseInt(event.target.textContent))}
+            onClick={(event) => {
+              setPage(parseInt(event.target.textContent));
+              setOpenTab(0);
+            }}
           >
             {item + 1}
           </SCNumber2>
         )
       )}
-      {page === 9 ? (
-        <SCNumber onClick={() => (page < 9 ? setPage(page + 1) : setPage(9))}>
+      {page === no ? (
+        <SCNumber
+          onClick={() => {
+            page < no ? setPage(page + 1) : setPage(no);
+            setOpenTab(0);
+          }}
+        >
           &rarr;
         </SCNumber>
       ) : (
-        <SCNumber2 onClick={() => (page < 9 ? setPage(page + 1) : setPage(9))}>
+        <SCNumber2
+          onClick={() => {
+            page < no ? setPage(page + 1) : setPage(no);
+            setOpenTab(0);
+          }}
+        >
           &rarr;
         </SCNumber2>
       )}
